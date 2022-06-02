@@ -45,4 +45,7 @@
     <!-- Configuration for detecting whether an oem fast charger is active -->
     <java-symbol type="array" name="config_oemFastChargerStatusPaths" />
 
+    <!-- Lock gesture -->
+    <java-symbol type="string" name="gesture_locked_warning" />
+
 </resources>
