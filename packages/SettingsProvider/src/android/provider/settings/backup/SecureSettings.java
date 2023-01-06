@@ -290,5 +290,6 @@ public class SecureSettings {
         Settings.Secure.ACCESSIBILITY_KEY_GESTURE_TARGETS,
         Settings.Secure.DOZE_PICK_UP_GESTURE_AMBIENT,
         Settings.Secure.DOZE_TAP_GESTURE_AMBIENT,
+        Settings.Secure.DOZE_FOR_NOTIFICATIONS,
     };
 }
