@@ -4051,4 +4051,11 @@
     <string name="qs_edit_mode_reset_dialog_content">
         All Quick Settings tiles will reset to the device’s original settings
     </string>
+
+    <!-- Advanced reboot -->
+    <string name="global_action_restart_recovery">Recovery</string>
+    <string name="global_action_restart_bootloader">Bootloader</string>
+    <string name="global_action_restart_ui">Restart SystemUI</string>
+    <string name="global_action_restart_advanced">Advanced restart</string>
+
 </resources>
