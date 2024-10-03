@@ -45,4 +45,7 @@
          DOZE_AOD_PAUSED to DOZE_AOD state. -->
     <bool name="config_displayTurnsOnWhenResumingAod">false</bool>
 
+    <!-- Whether to play turbulence noise after clicking the play button -->
+    <bool name="config_turbulenceNoise">true</bool>
+
 </resources>
