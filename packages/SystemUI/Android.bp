@@ -514,6 +514,7 @@ android_library {
         "androidx.activity_activity-compose",
         "androidx.compose.animation_animation-graphics",
         "androidx.lifecycle_lifecycle-viewmodel-compose",
+        "custom-preference",
     ],
     libs: [
         "keepanno-annotations",
@@ -695,6 +696,7 @@ android_library {
         "androidx.lifecycle_lifecycle-viewmodel-compose",
         "TraceurCommon",
         "Traceur-res",
+        "custom-preference",
     ],
 }
 
