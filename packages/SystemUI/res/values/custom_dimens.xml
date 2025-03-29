@@ -11,4 +11,6 @@
     <!-- Maximum vertical offset of statusbar for burn-in protection -->
     <dimen name="status_bar_offset_max_y">4dp</dimen>
 
+    <dimen name="volume_dialog_panel_transparent_padding_right">8dp</dimen>
+    <dimen name="volume_dialog_panel_transparent_padding_horizontal">8dp</dimen>
 </resources>
