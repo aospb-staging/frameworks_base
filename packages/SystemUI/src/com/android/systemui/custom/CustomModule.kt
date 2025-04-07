@@ -21,6 +21,8 @@ import com.android.systemui.qs.tiles.CaffeineTile
 import com.android.systemui.qs.tiles.CellularTile
 import com.android.systemui.qs.tiles.DataSwitchTile
 import com.android.systemui.qs.tiles.WifiTile
+import com.android.systemui.qs.tiles.RingerModeTile
+
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -51,4 +53,10 @@ interface CustomModule {
     @IntoMap
     @StringKey(WifiTile.TILE_SPEC)
     fun bindWifiTile(wifiTile: WifiTile): QSTileImpl<*>
+
+    /** Inject RingerModeTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(RingerModeTile.TILE_SPEC)
+    fun bindRingerModeTile(RingerModeTile: RingerModeTile): QSTileImpl<*>
 }

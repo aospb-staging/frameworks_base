@@ -79,4 +79,7 @@
     <!-- 4G icon -->
     <string name="show_fourg_icon_title">4G network indicator</string>
 
+    <!-- Ringer QS tile -->
+    <string name="qs_tile_ringer_mode_label">Ringer mode</string>
+
 </resources>

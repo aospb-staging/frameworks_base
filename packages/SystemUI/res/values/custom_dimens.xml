@@ -13,4 +13,8 @@
 
     <dimen name="volume_dialog_panel_transparent_padding_right">8dp</dimen>
     <dimen name="volume_dialog_panel_transparent_padding_horizontal">8dp</dimen>
+
+    <!-- Ringer QS tile -->
+    <dimen name="qs_ringer_tile_dot_radius">2dp</dimen>
+
 </resources>
