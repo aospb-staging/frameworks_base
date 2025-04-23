@@ -1043,4 +1043,6 @@ interface IActivityManager {
      */
     @EnforcePermission("INTERACT_ACROSS_USERS_FULL")
     IBinder refreshIntentCreatorToken(in Intent intent);
+
+    void releaseMemory(int minAdj, int maxKillCount, boolean includeUIProcesses, boolean skipCamera);
 }
