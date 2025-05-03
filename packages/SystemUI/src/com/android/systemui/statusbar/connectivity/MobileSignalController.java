@@ -176,7 +176,7 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
         switch (key) {
             case DATA_DISABLED_ICON:
                 mDataDisabledIcon =
-                    TunerService.parseIntegerSwitch(newValue, true);
+                    TunerService.parseIntegerSwitch(newValue, false);
                 updateTelephony();
                 break;
             default:
