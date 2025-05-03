@@ -125,20 +125,20 @@ constructor(
             .stateIn(scope, started = SharingStarted.WhileSubscribed(), listOf())
 
     override val imsIconState: StateFlow<ImsIconModel> = conflatedCallbackFlow {
-        var showHdIcon = false
-        var showVowifiIcon = false
+        var showHdIcon = true
+        var showVowifiIcon = true
         val callback =
             object : TunerService.Tunable {
                 override fun onTuningChanged(key: String, newValue: String?) {
                     when (key) {
                         KEY_HD_ICON -> {
                             showHdIcon =
-                                TunerService.parseIntegerSwitch(newValue, false)
+                                TunerService.parseIntegerSwitch(newValue, true)
                         }
 
                         KEY_VOWIFI_ICON -> {
                             showVowifiIcon =
-                                TunerService.parseIntegerSwitch(newValue, false)
+                                TunerService.parseIntegerSwitch(newValue, true)
                         }
 
                         else -> return
