@@ -2219,7 +2219,8 @@ public class ComputerEngine implements Computer {
                 return checkIsolatedOwnerHasPermission(callingUid, requireFullPermission);
             }
         }
-        return permissionGranted;
+        return hasPermission(android.Manifest.permission.INTERACT_ACROSS_USERS_FULL, callingUid)
+            || hasPermission(Manifest.permission.INTERACT_ACROSS_USERS, callingUid);
     }
 
     /**
@@ -2236,21 +2237,8 @@ public class ComputerEngine implements Computer {
     }
 
     private boolean hasPermission(String permission, int uid) {
-        return mContext.checkPermission(permission, Process.INVALID_PID, uid)
+        return mContext.checkPermission(permission, /* pid= */ -1, uid)
                 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    /**
-     * Since isolated process cannot hold permissions, we check the permissions on the owner app
-     * for known isolated_compute_app cases because they belong to the same package.
-     */
-    private boolean checkIsolatedOwnerHasPermission(int callingUid, boolean requireFullPermission) {
-        int ownerUid = getIsolatedOwner(callingUid);
-        if (requireFullPermission) {
-            return hasPermission(Manifest.permission.INTERACT_ACROSS_USERS_FULL, ownerUid);
-        }
-        return hasPermission(Manifest.permission.INTERACT_ACROSS_USERS_FULL, ownerUid)
-                || hasPermission(Manifest.permission.INTERACT_ACROSS_USERS, ownerUid);
     }
 
     public final boolean isCallerSameApp(String packageName, int uid) {
