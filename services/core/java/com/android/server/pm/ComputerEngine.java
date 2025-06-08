@@ -2241,6 +2241,19 @@ public class ComputerEngine implements Computer {
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * Since isolated process cannot hold permissions, we check the permissions on the owner appAdd commentMore actions
+     * for known isolated_compute_app cases because they belong to the same package.
+     */
+    private boolean checkIsolatedOwnerHasPermission(int callingUid, boolean requireFullPermission) {
+        int ownerUid = getIsolatedOwner(callingUid);
+        if (requireFullPermission) {
+            return hasPermission(Manifest.permission.INTERACT_ACROSS_USERS_FULL, ownerUid);
+        }
+        return hasPermission(Manifest.permission.INTERACT_ACROSS_USERS_FULL, ownerUid)
+                || hasPermission(Manifest.permission.INTERACT_ACROSS_USERS, ownerUid);
+    }
+
     public final boolean isCallerSameApp(String packageName, int uid) {
         return isCallerSameApp(packageName, uid, false /* resolveIsolatedUid */);
     }
