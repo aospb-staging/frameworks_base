@@ -5247,6 +5247,10 @@ public class ActivityManagerService extends IActivityManager.Stub
             // Start PSI monitoring in LMKD if it was skipped earlier.
             ProcessList.startPsiMonitoringAfterBoot();
 
+            mHandler.postDelayed(() -> {
+                SystemProperties.set("persist.sys.voltage_boot_completed", "1");
+            }, 5000);
+
             mUserController.onBootComplete(
                     new IIntentReceiver.Stub() {
                         @Override
