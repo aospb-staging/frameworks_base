@@ -61,7 +61,7 @@ class WifiStandardImageView @JvmOverloads constructor(
     private fun registerTunerService() {
         if (isTunerRegistered) return
         tunerService.addTunable({ key, value ->
-            wifiStandardEnabled = TunerService.parseIntegerSwitch(value, false)
+            wifiStandardEnabled = TunerService.parseIntegerSwitch(value, true)
             if (wifiStandardEnabled) {
                 showWifiStandard()
             } else {
