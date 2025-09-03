@@ -236,9 +236,10 @@ public class ChargingControlController extends LineageHealthFeature {
 
     @Override
     public void onStart() {
-        if (mChargingControl == null) {
-            return;
-        }
+    if (mChargingControl == null || mCurrentProvider == null) {
+        Log.w(TAG, "ChargingControlController disabled (no provider or HAL)");
+        return;
+    }
 
         // Register setting observer
         registerSettings(MODE_URI, LIMIT_URI, ENABLED_URI, START_TIME_URI, TARGET_TIME_URI);
@@ -298,7 +299,9 @@ public class ChargingControlController extends LineageHealthFeature {
         mIsControlCancelledOnce = false;
         mChargingNotification.cancel();
 
+    if (mCurrentProvider != null) {
         mCurrentProvider.reset();
+        }
     }
 
     protected void setChargingCancelledOnce() {
@@ -320,7 +323,9 @@ public class ChargingControlController extends LineageHealthFeature {
             }, disconnectFilter);
         }
 
+    if (mCurrentProvider != null) {
         mCurrentProvider.disable();
+        }
         mChargingNotification.cancel();
     }
 
@@ -413,6 +418,10 @@ public class ChargingControlController extends LineageHealthFeature {
     }
 
     protected void updateChargeControl() {
+        if (mCurrentProvider == null) {
+            Log.w(TAG, "updateChargeControl skipped: no provider");
+            return;
+        }
         if (!isEnabled() || mIsControlCancelledOnce || !mIsPowerConnected) {
             mCurrentProvider.disable();
             mChargingNotification.cancel();
@@ -470,7 +479,7 @@ public class ChargingControlController extends LineageHealthFeature {
      *     - ${@link lineageos.health.HealthInterface#MODE_LIMIT}
      */
     private boolean isProvideSupportCCMode(int mode) {
-        return mCurrentProvider.isChargingControlModeSupported(mode);
+        return mCurrentProvider != null && mCurrentProvider.isChargingControlModeSupported(mode);
     }
 
     private void handleSettingChange() {
@@ -511,7 +520,11 @@ public class ChargingControlController extends LineageHealthFeature {
         pw.println("  mIsDoneNotification: " + mChargingNotification.isDoneNotification());
         pw.println("  mIsControlCancelledOnce: " + mIsControlCancelledOnce);
         pw.println();
+    if (mCurrentProvider != null) {
         mCurrentProvider.dump(pw);
+        } else {
+        pw.println("  No active provider");
+        }
     }
 
     /* Battery Broadcast Receiver */
