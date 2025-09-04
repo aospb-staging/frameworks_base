@@ -175,14 +175,16 @@ open class SettingsPreferenceGroupAdapter(preferenceGroup: PreferenceGroup) :
             }
 
         val v = holder.itemView
+
+        // Update background
+        v.setBackgroundResource(backgroundRes)
+
         // Update padding
         if (SettingsThemeHelper.isExpressiveTheme(context)) {
             val paddingStart = if (backgroundRes == 0) mNormalPaddingStart else mGroupPaddingStart
             val paddingEnd = if (backgroundRes == 0) mNormalPaddingEnd else mGroupPaddingEnd
             v.setPaddingRelative(paddingStart, v.paddingTop, paddingEnd, v.paddingBottom)
         }
-        // Update background
-        v.setBackgroundResource(backgroundRes)
     }
 
     @DrawableRes
