@@ -175,7 +175,7 @@ public class CompanionDeviceManagerService extends SystemService {
         mTransportManager = new CompanionTransportManager(context, mAssociationStore);
 
         mDisassociationProcessor = new DisassociationProcessor(context, activityManager,
-                mAssociationStore, mPackageManagerInternal, mDevicePresenceProcessor,
+                mAssociationStore, packageManagerInternal, mDevicePresenceProcessor,
                 mCompanionAppBinder, mSystemDataTransferRequestStore, mTransportManager,
                 notificationManager);
 

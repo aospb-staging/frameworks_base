@@ -119,6 +119,7 @@ class BackgroundLaunchProcessController {
 
     BalVerdict areBackgroundActivityStartsAllowed(
             int pid, int uid, String packageName,
+            int appSwitchState, BalCheckConfiguration checkConfiguration,
             boolean hasActivityInVisibleTask, boolean inPinnedWindow,
             boolean hasBackgroundActivityStartPrivileges,
             long lastStopAppSwitchesTime, long lastActivityLaunchTime,
