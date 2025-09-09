@@ -147,6 +147,8 @@ public class CompanionDeviceManagerService extends SystemService {
         final UserManager userManager = context.getSystemService(UserManager.class);
         final PowerManagerInternal powerManagerInternal = LocalServices.getService(
                 PowerManagerInternal.class);
+        final NotificationManager notificationManager = context.getSystemService(
+                NotificationManager.class);
 
         final AssociationDiskStore associationDiskStore = new AssociationDiskStore();
         mAssociationStore = new AssociationStore(context, userManager, associationDiskStore);
@@ -173,8 +175,9 @@ public class CompanionDeviceManagerService extends SystemService {
         mTransportManager = new CompanionTransportManager(context, mAssociationStore);
 
         mDisassociationProcessor = new DisassociationProcessor(context, activityManager,
-                mAssociationStore, packageManagerInternal, mDevicePresenceProcessor,
-                mCompanionAppBinder, mSystemDataTransferRequestStore, mTransportManager);
+                mAssociationStore, mPackageManagerInternal, mDevicePresenceProcessor,
+                mCompanionAppBinder, mSystemDataTransferRequestStore, mTransportManager,
+                notificationManager);
 
         mSystemDataTransferProcessor = new SystemDataTransferProcessor(this,
                 packageManagerInternal, mAssociationStore,

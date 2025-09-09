@@ -1164,6 +1164,17 @@ public class PreferencesHelper implements RankingConfig {
                 }
                 clearLockedFieldsLocked(channel);
 
+                // Verify that the app has permission to read the sound Uri
+                // Only check for new channels, as regular apps can only set sound
+                // before creating. See: {@link NotificationChannel#setSound}
+                try {
+                    PermissionHelper.grantUriPermission(mUgmInternal, channel.getSound(), uid);
+                } catch (SecurityException e) {
+                    // Fallback to default Uri to prevent app crashes
+                    channel.setSound(Settings.System.DEFAULT_NOTIFICATION_URI,
+                            Notification.AUDIO_ATTRIBUTES_DEFAULT);
+                }
+
                 channel.setImportanceLockedByCriticalDeviceFunction(
                         r.defaultAppLockedImportance || r.fixedImportance);
 
