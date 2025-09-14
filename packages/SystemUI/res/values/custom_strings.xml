@@ -73,4 +73,7 @@
     <!-- AI Assistant affordance [CHAR LIMIT=32] -->
     <string name="accessibility_assistant_button">AI Assistant</string>
 
+    <!-- Data disabled icon -->
+    <string name="data_disabled_icon_title">Data disabled indicator</string>
+
 </resources>
