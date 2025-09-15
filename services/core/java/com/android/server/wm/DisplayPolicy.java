@@ -1419,6 +1419,14 @@ public class DisplayPolicy {
             return;
         }
 
+        // --- Prime Video fullscreen cutout override ---
+        final WindowManager.LayoutParams lp = win.getAttrs();
+        if (lp != null && "com.amazon.avod.thirdpartyclient".equals(win.getOwningPackage())) {
+            lp.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+        }
+        // --- End override ---
+
         // This window might be in the simulated environment.
         // We invoke this to get the proper DisplayFrames.
         displayFrames = win.getDisplayFrames(displayFrames);
