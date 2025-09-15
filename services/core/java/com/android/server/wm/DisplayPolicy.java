@@ -39,6 +39,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCRE
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
 import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
 import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_CONSUME_IME_INSETS;
 import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_FORCE_DRAW_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_IMMERSIVE_CONFIRMATION_WINDOW;
@@ -147,6 +148,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
+
+import android.database.ContentObserver;
+import android.provider.Settings;
+import android.text.TextUtils;
 
 /**
  * The policy that provides the basic behaviors and states of a display to show UI.
@@ -301,6 +309,9 @@ public class DisplayPolicy {
      */
     private final ArrayList<WindowState> mStatusBarBackgroundWindows = new ArrayList<>();
 
+    private final ContentObserver mNotchSettingsObserver;
+    private volatile Set<String> mUserEnabledNotchApps = new HashSet<>();
+
     /**
      * A collection of {@link LetterboxDetails} of all visible activities to be sent to SysUI in
      * order to determine status bar appearance
@@ -403,6 +414,20 @@ public class DisplayPolicy {
         mDisplayContent = displayContent;
         mDecorInsets = new DecorInsets(displayContent);
         mLock = service.getWindowManagerLock();
+
+        // Initialize Content Observer for dynamic settings
+        mNotchSettingsObserver = new ContentObserver(service.mH) {
+            @Override
+            public void onChange(boolean selfChange) {
+                updateUserEnabledNotchApps();
+            }
+        };
+
+        mContext.getContentResolver().registerContentObserver(
+            Settings.Secure.getUriFor(Settings.Secure.NOTCH_ENABLED_APPS),
+            false, mNotchSettingsObserver, UserHandle.USER_ALL);
+
+        updateUserEnabledNotchApps();
 
         final int displayId = displayContent.getDisplayId();
 
@@ -717,6 +742,25 @@ public class DisplayPolicy {
             mForceShowNavigationBarEnabled =
                     mForceShowNavBarSettingsObserver.isEnabled();
             updateSystemBarAttributes();
+        }
+    }
+
+    private void updateUserEnabledNotchApps() {
+        String enabledApps = Settings.Secure.getString(
+            mContext.getContentResolver(), Settings.Secure.NOTCH_ENABLED_APPS);
+
+        if (!TextUtils.isEmpty(enabledApps)) {
+            String[] pkgs = enabledApps.split(",");
+            Set<String> enabledSet = new HashSet<>();
+            for (String pkg : pkgs) {
+                String trimmedPkg = pkg.trim();
+                if (!trimmedPkg.isEmpty()) {
+                    enabledSet.add(trimmedPkg);
+                }
+            }
+            mUserEnabledNotchApps = enabledSet;
+        } else {
+            mUserEnabledNotchApps = Collections.emptySet();
         }
     }
 
@@ -1417,6 +1461,15 @@ public class DisplayPolicy {
     public void layoutWindowLw(WindowState win, WindowState attached, DisplayFrames displayFrames) {
         if (win.skipLayout()) {
             return;
+        }
+
+        final WindowManager.LayoutParams lp = win.mAttrs;
+        String pkg = win.getOwningPackage();
+        if (lp != null && pkg != null) {
+            // If the package is in the user enabled set, allow layout in cutout
+            if (mUserEnabledNotchApps.contains(pkg)) {
+                lp.layoutInDisplayCutoutMode = LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            }
         }
 
         // This window might be in the simulated environment.
@@ -3068,6 +3121,9 @@ public class DisplayPolicy {
         }
         if (mService.mPointerLocationEnabled) {
             setPointerLocationEnabled(false);
+        }
+        if (mNotchSettingsObserver != null) {
+            mContext.getContentResolver().unregisterContentObserver(mNotchSettingsObserver);
         }
     }
 
