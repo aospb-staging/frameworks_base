@@ -77,6 +77,6 @@
     <string name="data_disabled_icon_title">Data disabled indicator</string>
 
     <!-- 4G icon -->
-    <string name="show_fourg_icon_title">4G indicator</string>
+    <string name="show_fourg_icon_title">4G network indicator</string>
 
 </resources>
