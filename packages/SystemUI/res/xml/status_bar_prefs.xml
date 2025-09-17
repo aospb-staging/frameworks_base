@@ -107,8 +107,8 @@
     <!-- System -->
     <com.android.systemui.tuner.StatusBarSwitch
         android:key="volume"
-        android:title="@*android:string/volume_unknown"
-        android:icon="@drawable/ic_statusbar_mute" />
+        android:title="@*android:string/silent_mode_vibrate"
+        android:icon="@drawable/ic_volume_ringer_vibrate" />
 
     <com.android.systemui.tuner.StatusBarSwitch
         android:key="zen"
