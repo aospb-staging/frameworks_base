@@ -266,7 +266,10 @@ public class SystemSensorManager extends SensorManager {
                 + "the sensor listeners size has exceeded the maximum limit "
                 + MAX_LISTENER_COUNT);
         }
-        if (sensor.getType() == Sensor.TYPE_SIGNIFICANT_MOTION) {
+        int sensortype = sensor.getType();
+        if (sensortype == Sensor.TYPE_SIGNIFICANT_MOTION ||
+                sensortype == Sensor.TYPE_ACCELEROMETER ||
+                sensortype == Sensor.TYPE_LINEAR_ACCELERATION) {
             String pkgName = mContext.getPackageName();
             for (String blockedPkgName : mContext.getResources().getStringArray(
                     com.android.internal.R.array.config_blockPackagesSensorDrain)) {
