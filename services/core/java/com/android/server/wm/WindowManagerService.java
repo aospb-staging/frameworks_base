@@ -10542,6 +10542,6 @@ public class WindowManagerService extends IWindowManager.Stub
 
     private boolean shouldHideScreenCapture() {
         return Settings.Global.getInt(mContext.getContentResolver(),
-                Settings.Global.HIDE_SCREEN_CAPTURE_STATUS, 0) != 0;
+                Settings.Global.SCREEN_CAPTURE_OVERRIDE, 0) != 0;
     }
 }
