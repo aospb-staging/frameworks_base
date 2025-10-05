@@ -73,8 +73,8 @@
     <!-- AI Assistant affordance [CHAR LIMIT=32] -->
     <string name="accessibility_assistant_button">AI Assistant</string>
 
-    <!-- Data disabled icon -->
-    <string name="data_disabled_icon_title">Data disabled indicator</string>
+    <!-- Data off icon -->
+    <string name="data_disabled_icon_title">Data off indicator</string>
 
     <!-- 4G icon -->
     <string name="show_fourg_icon_title">4G network indicator</string>
