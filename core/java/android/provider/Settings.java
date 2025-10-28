@@ -6572,11 +6572,6 @@ public final class Settings {
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
         /**
-         * @hide
-         */
-        public static final String WIFI_STANDARD_ICON = "wifi_standard_icon";
-
-        /**
          * Whether to scramble a pin unlock layout
          * 0 = 0ff, 1 = on
          * @hide
