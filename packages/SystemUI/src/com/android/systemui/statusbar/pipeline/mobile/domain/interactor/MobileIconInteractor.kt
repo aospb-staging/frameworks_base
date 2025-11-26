@@ -195,7 +195,7 @@ class MobileIconInteractorImpl(
                         override fun onTuningChanged(key: String, newValue: String?) {
                             when (key) {
                                 DATA_DISABLED_ICON -> 
-                                    trySend(TunerService.parseIntegerSwitch(newValue, false))
+                                    trySend(TunerService.parseIntegerSwitch(newValue, true))
                             }
                         }
                     }
