@@ -894,7 +894,7 @@ class RootWindowContainer extends WindowContainer<DisplayContent>
         if (mSustainedPerformanceModeCurrent != mSustainedPerformanceModeEnabled) {
             mSustainedPerformanceModeEnabled = mSustainedPerformanceModeCurrent;
             mWmService.mPowerManagerInternal.setPowerMode(
-                    Mode.FIXED_PERFORMANCE,
+                    Mode.SUSTAINED_PERFORMANCE,
                     mSustainedPerformanceModeEnabled);
         }
 
