@@ -145,11 +145,9 @@ class BLASTSyncEngine {
             mListener = listener;
             mOnTimeout = () -> {
                 Slog.w(TAG, "Sync group " + mSyncId + " timeout");
-                WindowManagerService.boostPriorityForLockedSection();
                 synchronized (mWm.mGlobalLock) {
                     onTimeout();
                 }
-                WindowManagerService.resetPriorityAfterLockedSection();
             };
             if (Trace.isTagEnabled(TRACE_TAG_WINDOW_MANAGER)) {
                 mTraceName = name + "SyncGroupReady";
@@ -242,7 +240,6 @@ class BLASTSyncEngine {
                 public void onCommitted(SurfaceControl.Transaction t) {
                     // Don't wait to hold the global lock to remove the timeout runnable
                     mHandler.removeCallbacks(this);
-                    WindowManagerService.boostPriorityForLockedSection();
                     synchronized (mWm.mGlobalLock) {
                         if (ran) {
                             return;
@@ -254,7 +251,6 @@ class BLASTSyncEngine {
                         t.apply();
                         wcAwaitingCommit.clear();
                     }
-                    WindowManagerService.resetPriorityAfterLockedSection();
                 }
 
                 // Called in timeout
@@ -268,13 +264,11 @@ class BLASTSyncEngine {
                             + mergedTxId + ") to organizer, but never received commit callback."
                             + " Application ANR likely to follow.");
                     Trace.traceEnd(TRACE_TAG_WINDOW_MANAGER);
-                    WindowManagerService.boostPriorityForLockedSection();
                     synchronized (mWm.mGlobalLock) {
                         mListener.onTransactionCommitTimeout();
                         onCommitted(merged.mNativeObject != 0
                                 ? merged : mWm.mTransactionFactory.get());
                     }
-                    WindowManagerService.resetPriorityAfterLockedSection();
                 }
             };
             CommitCallback callback = new CommitCallback();
@@ -298,11 +292,9 @@ class BLASTSyncEngine {
                 }
                 // Post this so that the now-playing transition setup isn't interrupted.
                 mHandler.post(() -> {
-                    WindowManagerService.boostPriorityForLockedSection();
                     synchronized (mWm.mGlobalLock) {
                         pt.mApplySync.run();
                     }
-                    WindowManagerService.resetPriorityAfterLockedSection();
                 });
             }
             // Notify idle listeners
