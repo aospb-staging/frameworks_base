@@ -412,10 +412,6 @@ class BLASTSyncEngine {
                                     .mUnknownAppVisibilityController.getDebugMessage());
                         }
                     });
-                    ActivityRecord r = wc.asActivityRecord();
-                    if (r != null) {
-                        r.checkSyncTimeout(this);
-                    }
                 }
             }
 
