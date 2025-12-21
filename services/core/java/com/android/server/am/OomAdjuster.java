@@ -541,18 +541,7 @@ public class OomAdjuster {
                     + processName + " to " + group);
         }
         try {
-            if (isNtCustomizeApp(processName)) {
-                Slog.d(TAG, "set group = " + group);
-            }
-            if (isCamera(processName) && (group == THREAD_GROUP_TOP_APP || group == THREAD_GROUP_RESTRICTED)) {
-                Slog.d(TAG, "set cpuset: " + group);
-                Process.setProcessGroup(pid, THREAD_GROUP_RESTRICTED);
-            } else if (isSystemui(processName) || isLauncher(processName)) {
-                Slog.d(TAG, "set cpuset: " + group);
-                Process.setProcessGroup(pid, THREAD_GROUP_RESTRICTED);
-            } else {
-                Process.setProcessGroup(pid, group);
-            }
+            android.os.Process.setProcessGroup(pid, group);
         } catch (Exception e) {
             if (DEBUG_ALL) {
                 Slog.w(TAG, "Failed setting process group of " + pid + " to " + group, e);
@@ -562,22 +551,6 @@ public class OomAdjuster {
                 Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
             }
         }
-    }
-
-    private boolean isSystemui(String processName) {
-        return processName != null && processName.equals("com.android.systemui");
-    }
-
-    private boolean isCamera(String processName) {
-        return processName != null && processName.toLowerCase().contains("camera");
-    }
-
-    private boolean isLauncher(String processName) {
-        return processName != null && processName.equals("com.android.launcher3");
-    }
-
-    private boolean isNtCustomizeApp(String processName) {
-        return isSystemui(processName) || isCamera(processName) || isLauncher(processName);
     }
 
     void setAppAndChildProcessGroup(ProcessRecord app, int group) {
