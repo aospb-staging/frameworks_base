@@ -59,7 +59,6 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PerformanceHintManager;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -861,9 +860,6 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         if (PredictiveBackSysUiFlag.isEnabled()) {
             mContext.getApplicationInfo().setEnableOnBackInvokedCallback(true);
         }
-        PerformanceHintManager performanceHintManager =
-          (PerformanceHintManager) context.getSystemService(Context.PERFORMANCE_HINT_SERVICE);
-        com.android.systemui.util.SystemUIBoostFramework.getInstance().createAdpfSession(performanceHintManager);
     }
 
     private void initBubbles(Bubbles bubbles) {
